@@ -1,0 +1,31 @@
+.theme-btn {
+    border: none;
+    box-shadow: none;
+    background-color: var(--theme-btn-color);
+    color: var(--text-color);
+    /* position: relative; */
+    /* right: 20px; */
+    /* bottom: 20px; */
+    border-radius: 4px;
+    opacity: 50%;
+}
+
+.theme-btn:active {
+    transform: scale(1.05);
+    opacity: 100%;
+    transition: transform ease .1s, opacity ease-out 5s;
+}
+
+.theme-btn:focus, .theme-btn:focus-visible{
+    border: none;
+    box-shadow: none;
+    outline: none;
+}
+
+.bgtransition {
+    transition: background-color ease 0.2s;
+}
+
+.no-transition {
+    transition: none;
+}

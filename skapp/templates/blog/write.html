@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+<title>Write | Sence</title>
+{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'skapp/css/styles.css' %}" />
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'skapp/js/write.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+
+<div class="container text-color">
+    <div class="mx-auto part1">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div>Upload the pdf or text file.</div>
+            <input class="form-control" type="file" name="inputFile" accept=".txt, .pdf" required/>
+            <button class="btn" type="submit">Generate</button>
+        </form>
+    </div>
+    <div class="loaderPlaceholder d-flex align-items-center justify-content-center position-absolute top-50 start-50 translate-middle"></div>
+    <div class="part2 pb-2">
+        {% if articles %}
+            {% for article in articles %}
+                <h1 class="title">{{ article.title }}</h1>
+                <div class="mt-3">{{ article.article | safe }}</div>
+                <form method="GET" id="id-{{ article.slug }}">
+                    <input type="hidden" name="publish" value="{{ article.slug }}">
+                    <button class="btn mx-auto publish" type="submit">Publish</button>
+                </form>
+                <hr>
+            {% endfor %}
+        {% endif    %}
+    </div>
+    {% if messages %}
+    <span>{{ messages }}</span>
+    {% endif %}
+</div>
+{% if messages %}
+<div class="alert alert-warning alert-dismissible" role="alert">
+    <div>{{messages}}</div>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block urls %}
+<script>
+    var genURL = "{% url 'skapp:write' %}";
+</script>
+{% endblock %}

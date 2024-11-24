@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+<title>Read | bluescribe</title>
+{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'skapp/css/styles.css' %}" />
+{% endblock %}
+
+{% block content%}
+<div class="container text-color">
+    <div class="part2 py-4">
+        {% if title %}
+            <h1 class="title">{{ title }}</h1>
+        {% endif    %}
+        {% if datetime %}
+        <span>{{ datetime|date:"F j, Y" }}</span>
+        {% endif %}
+        {% if summary %}
+            <h2 class="title">Summary</h2>
+            <div class="mt-4 mb-4">{{ summary | safe }}</div>
+        {% endif %}
+        {% if keytakeaways %}
+            <h2 class="title">Keytakeaways</h2>
+            <div class="mt-4 mb-4">{{ keytakeaways | safe }}</div>
+        {% endif %}
+    </div>
+    {% if messages %}
+    <span>{{ messages }}</span>
+    {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}
+<title>bluescribe | deepblue</title>
+{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'skapp/css/styles.css' %}" />
+{% endblock %}
+
+{% block content %}
+<div class="container pt-5 pb-2">
+<ul>
+{% for item in items %}
+    <li class="clickable">
+        <a href="{% url 'skapp:read' slug=item.sk_id %}">
+            <span class="fr timesize text-color ">{{ item.datetime|timesince }} ago</span>
+            <h3 class="title">{{ item.filename }}</h3>
+        </a>
+    </li>
+{% endfor %}
+</ul>
+</div>
+{% endblock %}
