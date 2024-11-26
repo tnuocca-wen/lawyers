@@ -1,61 +1,63 @@
 from django.shortcuts import render, redirect, get_object_or_404
 # from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, JsonResponse
-from django.conf import settings
-import os
 from .models import Sk
-from .summakey import sk_wrapper, convert_markdown_to_html, extract_text_from_pdf
+from .summakey import process, create_timeline, convert_markdown_to_html
 from concurrent.futures import ProcessPoolExecutor
-from itertools import repeat
+# from itertools import repeat
+import os
+from django.conf import settings
 
-def index(request):
+def history(request):
     sks = Sk.objects.order_by('-datetime')
     return render(request, 'blog/index.html', {'items':sks})
 
 def write(request):
     if request.method == 'POST':
-        fl = request.FILES['inputFile']
-        print(fl)
-        if fl:
+
+        print(request.FILES.getlist("inputFile"))
+        allfiles = request.FILES.getlist("inputFile")
+        # fl = request.FILES['inputFile']
+        flist = []
+        
+        for fl in allfiles:
             fp = os.path.join(settings.MEDIA_ROOT, 'input_files', fl.name)
-            
+            flist.append(fp)    
             with open(fp, 'wb+') as fd:
                 for chunk in fl.chunks():
                     fd.write(chunk)
-            
+        
 
-            if os.path.splitext(fl.name)[1] =='.txt':
-                fc = ''
-                with open(fp, 'r', encoding='utf-8') as f:
-                    fc = f.read()
+        with ProcessPoolExecutor() as executor:
+            tuplist = list(executor.map(process, flist))
 
-            elif os.path.splitext(fl.name)[1] =='.pdf':
-                fc = extract_text_from_pdf(fp)
-            
-            dif_outs = [0, 1]
-
-            # sk = sk_wrapper(dif_outs, fc)
-
-            with ProcessPoolExecutor() as executor:
-                sk = list(executor.map(sk_wrapper, dif_outs, repeat(fc)))
-            
-            sk = {"summary": sk[0], "keytakeaways": sk[1]}
-            
-            print(sk)
-
-
-
+        for item, inpfile in zip(tuplist, allfiles):
             Sk.objects.create(
-                summary = sk["summary"],
-                keytakeaways = sk["keytakeaways"],
-                filename = fp.replace("\\", "/").split("/")[-1],
-                # varticle = varticle['varticle'],
-                inputfile = fl
-            )
-            
+                notes = item[1]["notes"],
+                timeline = item[1]["timeline"],
+                description = item[0],
+                filename = item[2].split("/")[-1],
+                inputfile = inpfile)
+        
+        # with ProcessPoolExecutor() as executor:
+        #     sklist = list(executor.map(process, flist))
 
-            return JsonResponse({"summary": convert_markdown_to_html(sk["summary"]),
-                                 "keytakeaways": convert_markdown_to_html(sk["keytakeaways"])}, safe=False)
+        sklist = [{item[2].split("/")[-1] : item[1]} for item in tuplist]
+        
+        notess = []
+        timelines = []
+        for sk_dict in sklist:
+            # print(sk_dict)
+            for key, sk in sk_dict.items():
+                notess.append({key: [convert_markdown_to_html(sk["notes"]), sk["notes"]]})
+                timelines.append(sk["timeline"])
+
+        timeline = create_timeline(timelines)
+
+        # print(notess)
+
+        return JsonResponse({"notes": notess,
+                            "timeline": [convert_markdown_to_html(timeline), timeline]}, safe=False)
         
         return render(request, 'blog/write.html', {'messages': 'File not acceptable.'})
     
@@ -76,8 +78,8 @@ def write(request):
 
 def read(request, slug):
     sk = get_object_or_404(Sk, sk_id=int(slug))
-    print(sk.summary)
-    return render(request, 'blog/read.html', {'summary': convert_markdown_to_html(sk.summary), 
-                                              'keytakeaways': convert_markdown_to_html(sk.keytakeaways),
+    print(sk)
+    return render(request, 'blog/read.html', {'notes': convert_markdown_to_html(sk.notes),
+                                              'timeline': convert_markdown_to_html(sk.timeline),
                                               'title': sk.filename, 
                                               'datetime': sk.datetime})

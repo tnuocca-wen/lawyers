@@ -14,9 +14,10 @@ def validate_gt(value):
 
 class Sk(models.Model):
     sk_id = models.IntegerField(primary_key=True, validators=[validate_gt])
-    summary = models.TextField(blank=False)
-    keytakeaways = models.TextField(blank=False)
+    notes = models.TextField(blank=False)
+    timeline = models.TextField(blank=False)
     filename = models.CharField(max_length=100, blank=False)
+    description = models.CharField(max_length=1000, blank=False)
     inputfile = models.FileField(upload_to='input_files/', null=True)
     datetime = models.DateTimeField(auto_now_add=True)
     # publish = models.BooleanField(default=False)

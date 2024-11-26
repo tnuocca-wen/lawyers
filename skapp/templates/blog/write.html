@@ -20,8 +20,8 @@
     <div class="mx-auto part1">
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            <div>Upload the pdf or text file.</div>
-            <input class="form-control" type="file" name="inputFile" accept=".txt, .pdf" required/>
+            <div>Upload the files.</div>
+            <input class="form-control" type="file" name="inputFile" accept=".txt, .pdf, .docx" multiple required/>
             <button class="btn" type="submit">Generate</button>
         </form>
     </div>

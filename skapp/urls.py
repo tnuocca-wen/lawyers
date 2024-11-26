@@ -1,10 +1,10 @@
-from .views import write, read, index
+from .views import write, read, history
 from django.urls import path
 
 app_name = 'skapp'
 
 urlpatterns = [
-    path('', index, name='index'),
+    path('history', history, name='history'),
     path('read/<slug:slug>', read, name='read'),
-    path('write/', write, name='write')
+    path('', write, name='write')
 ]

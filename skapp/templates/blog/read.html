@@ -19,13 +19,12 @@
         {% if datetime %}
         <span>{{ datetime|date:"F j, Y" }}</span>
         {% endif %}
-        {% if summary %}
-            <h2 class="title">Summary</h2>
-            <div class="mt-4 mb-4">{{ summary | safe }}</div>
+        {% if notes %}
+            <div class="mt-4 mb-4">{{ notes | safe }}</div>
         {% endif %}
-        {% if keytakeaways %}
-            <h2 class="title">Keytakeaways</h2>
-            <div class="mt-4 mb-4">{{ keytakeaways | safe }}</div>
+        {% if timeline %}
+            <h2 class="title">Timeline</h2>
+            <div class="mt-4 mb-4">{{ timeline | safe }}</div>
         {% endif %}
     </div>
     {% if messages %}
