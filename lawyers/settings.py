@@ -31,7 +31,7 @@ if not os.path.isdir(BASE_DIR / "media/file_images/"):
     os.makedirs(BASE_DIR / "media/file_images/")
 
 if not os.path.isdir(BASE_DIR / "media/input_files/"):
-    os.makedirs(BASE_DIR / "media/file_images/")
+    os.makedirs(BASE_DIR / "media/input_files/")
 
 if not os.path.isdir(BASE_DIR / "skapp/ocr_text/"):
     os.makedirs(BASE_DIR / "skapp/ocr_text/")
