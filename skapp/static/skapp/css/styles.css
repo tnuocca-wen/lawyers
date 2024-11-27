@@ -121,10 +121,10 @@ input:focus {
         display: none;
     }
 
-    li {
+    /* li {
         border: 1px solid var(--primary-color);
         margin-bottom: 10px;
-    }
+    } */
 }
 
 .title {

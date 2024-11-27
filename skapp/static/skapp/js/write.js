@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     const noteTitle = document.createElement('h1');
                     noteTitle.classList.add('title', 'mx-auto');
                     noteTitle.style.width = 'fit-content';
-                    noteTitle.innerText = `Notes for ${key}`;
+                    noteTitle.innerText = `Notes on ${key}`;
                     
                     // Download button for the note
                     const downloadButton = document.createElement('button');
