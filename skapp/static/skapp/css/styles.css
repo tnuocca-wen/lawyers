@@ -68,7 +68,7 @@ p {
 
 .part1 {
     margin-top: 2%;
-    width: max-content;
+    width: fit-content;
     text-align: center;
 }
 
