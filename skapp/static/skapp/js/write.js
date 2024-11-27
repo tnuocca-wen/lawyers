@@ -135,6 +135,7 @@ document.addEventListener("DOMContentLoaded", function() {
             console.error('Error:', error);  // Handle any errors
             loaderPlaceholder.innerHTML = ``;  // Ensure the loader is cleared on error
             genBtn.disabled = false;  // Re-enable the button on error
+            appendAlert("error", "warning");
         });
     });
     
