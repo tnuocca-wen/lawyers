@@ -1,11 +1,12 @@
 {% load static %}
 <div class="sticky-top d-flex align-items-center justify-content-center px-5 background-color mt-2">
 <div class="d-flex flex-column">
+  <a href="{% url 'skapp:write' %}">
   <div class="d-flex flex-column justify-content-center">
     <img src="{% static 'skapp/imgs/logo.svg' %}" style="width: 40px;" class="mx-auto mb-2" alt="deepblue logo">
     <img src="{% static 'skapp/imgs/name1.svg' %}" style="width: 200px;" class="mx-auto" alt="deepblue logo">
   </div>
-  <div style="text-align: center;"><a class="poppins" style="font-size: small; font-weight: 500; font-style: italic; color: #333;" href="{% url 'skapp:write' %}">For Jatin</a></div>
+</a>
 </div>
 </div>
 <!-- <button class="theme-btn" id="theme-button">light</button> -->
